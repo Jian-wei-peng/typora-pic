@@ -1,0 +1,133 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="2180" viewBox="0 0 1400 2180">
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M 0 0 L 12 6 L 0 12 z" fill="#40556d"/>
+    </marker>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#52657a" flood-opacity="0.18"/>
+    </filter>
+    <style>
+      .title { font: 700 34px "Noto Sans CJK SC","Microsoft YaHei","PingFang SC",sans-serif; fill:#18334f; }
+      .boxtext { font: 500 23px "Noto Sans CJK SC","Microsoft YaHei","PingFang SC",sans-serif; fill:#20364d; text-anchor:middle; }
+      .small { font: 500 20px "Noto Sans CJK SC","Microsoft YaHei","PingFang SC",sans-serif; fill:#20364d; text-anchor:middle; }
+      .label { font: 600 21px "Noto Sans CJK SC","Microsoft YaHei","PingFang SC",sans-serif; fill:#38516b; }
+      .line { fill:none; stroke:#40556d; stroke-width:3; marker-end:url(#arrow); }
+      .merge { fill:none; stroke:#40556d; stroke-width:3; }
+      .input { fill:#eaf3ff; stroke:#4e83bd; stroke-width:2.5; }
+      .relation { fill:#f2edff; stroke:#7a64b7; stroke-width:2.5; }
+      .govern { fill:#fff4db; stroke:#c9932d; stroke-width:2.5; }
+      .output { fill:#e8f7ee; stroke:#4c9b6d; stroke-width:2.5; }
+      .decision { fill:#fff0f0; stroke:#c26464; stroke-width:2.5; }
+    </style>
+  </defs>
+
+  <rect width="1400" height="2180" fill="#fbfcfe"/>
+  <text x="700" y="48" class="title" text-anchor="middle">TARG 核心算法流程</text>
+
+  <ellipse cx="700" cy="105" rx="110" ry="38" class="output" filter="url(#shadow)"/>
+  <text x="700" y="113" class="boxtext">开始</text>
+
+  <path d="M700 143 L700 180" class="line"/>
+  <rect x="300" y="180" width="800" height="110" rx="18" class="input" filter="url(#shadow)"/>
+  <text x="700" y="220" class="boxtext">
+    <tspan x="700">输入目标人状态、机器人状态与名义关系参考</tspan>
+    <tspan x="700" dy="34">输入期望距离 d、参考速度预算和采样周期</tspan>
+  </text>
+
+  <path d="M700 290 L700 335" class="line"/>
+  <rect x="390" y="335" width="620" height="82" rx="18" class="relation" filter="url(#shadow)"/>
+  <text x="700" y="385" class="boxtext">计算名义关系相位 β</text>
+
+  <path d="M700 417 L700 455" class="line"/>
+  <polygon points="700,455 900,535 700,615 500,535" class="decision" filter="url(#shadow)"/>
+  <text x="700" y="526" class="boxtext">
+    <tspan x="700">目标是否首次获取</tspan>
+    <tspan x="700" dy="32">或重新捕获？</tspan>
+  </text>
+
+  <path d="M500 535 L300 535 L300 675" class="line"/>
+  <text x="390" y="516" class="label">是</text>
+  <rect x="85" y="675" width="430" height="100" rx="18" class="relation" filter="url(#shadow)"/>
+  <text x="300" y="715" class="small">
+    <tspan x="300">根据当前人机 LOS</tspan>
+    <tspan x="300" dy="31">初始化关系相位 γ</tspan>
+  </text>
+
+  <path d="M900 535 L1100 535 L1100 675" class="line"/>
+  <text x="990" y="516" class="label">否</text>
+  <rect x="885" y="675" width="430" height="100" rx="18" class="relation" filter="url(#shadow)"/>
+  <text x="1100" y="715" class="small">
+    <tspan x="1100">保留并递推上一时刻的</tspan>
+    <tspan x="1100" dy="31">内部关系相位 γ</tspan>
+  </text>
+
+  <path d="M300 775 L300 820 L700 820" class="merge"/>
+  <path d="M1100 775 L1100 820 L700 820" class="merge"/>
+  <path d="M700 820 L700 865" class="line"/>
+  <rect x="390" y="865" width="620" height="82" rx="18" class="relation" filter="url(#shadow)"/>
+  <text x="700" y="915" class="boxtext">计算圆周关系相位误差</text>
+
+  <path d="M700 947 L700 990" class="line"/>
+  <rect x="350" y="990" width="700" height="94" rx="18" class="govern" filter="url(#shadow)"/>
+  <text x="700" y="1027" class="small">
+    <tspan x="700">结合名义相位变化率、关系误差与置信度</tspan>
+    <tspan x="700" dy="32">计算期望关系相位速度</tspan>
+  </text>
+
+  <path d="M700 1084 L700 1127" class="line"/>
+  <rect x="320" y="1127" width="760" height="94" rx="18" class="govern" filter="url(#shadow)"/>
+  <text x="700" y="1164" class="small">
+    <tspan x="700">将目标人速度分解为关系流形的</tspan>
+    <tspan x="700" dy="32">径向分量 b 和切向分量 a</tspan>
+  </text>
+
+  <path d="M700 1221 L700 1260" class="line"/>
+  <polygon points="700,1260 940,1345 700,1430 460,1345" class="decision" filter="url(#shadow)"/>
+  <text x="700" y="1335" class="boxtext">
+    <tspan x="700">径向速度是否不超过</tspan>
+    <tspan x="700" dy="32">参考速度预算？</tspan>
+  </text>
+
+  <path d="M460 1345 L285 1345 L285 1480" class="line"/>
+  <text x="373" y="1325" class="label">是</text>
+  <rect x="65" y="1480" width="440" height="94" rx="18" class="govern" filter="url(#shadow)"/>
+  <text x="285" y="1517" class="small">
+    <tspan x="285">计算可跟踪的</tspan>
+    <tspan x="285" dy="32">关系相位速度区间</tspan>
+  </text>
+
+  <path d="M285 1574 L285 1615" class="line"/>
+  <rect x="65" y="1615" width="440" height="100" rx="18" class="govern" filter="url(#shadow)"/>
+  <text x="285" y="1654" class="small">
+    <tspan x="285">将期望相位速度投影至可行区间</tspan>
+    <tspan x="285" dy="32">获得最小干预解</tspan>
+  </text>
+
+  <path d="M940 1345 L1115 1345 L1115 1545" class="line"/>
+  <text x="1024" y="1325" class="label">否</text>
+  <rect x="895" y="1545" width="440" height="100" rx="18" class="govern" filter="url(#shadow)"/>
+  <text x="1115" y="1584" class="small">
+    <tspan x="1115">消除可调节的切向运动</tspan>
+    <tspan x="1115" dy="32">获得最小约束违反解</tspan>
+  </text>
+
+  <path d="M285 1715 L285 1760 L700 1760" class="merge"/>
+  <path d="M1115 1645 L1115 1760 L700 1760" class="merge"/>
+  <path d="M700 1760 L700 1800" class="line"/>
+  <rect x="390" y="1800" width="620" height="82" rx="18" class="govern" filter="url(#shadow)"/>
+  <text x="700" y="1850" class="boxtext">递推更新内部关系相位 γ</text>
+
+  <path d="M700 1882 L700 1923" class="line"/>
+  <rect x="350" y="1923" width="700" height="94" rx="18" class="output" filter="url(#shadow)"/>
+  <text x="700" y="1960" class="small">
+    <tspan x="700">生成TARG输出的关系参考</tspan>
+    <tspan x="700" dy="32">单步参考或预测关系参考序列</tspan>
+  </text>
+
+  <path d="M700 2017 L700 2058" class="line"/>
+  <rect x="390" y="2058" width="620" height="82" rx="18" class="output" filter="url(#shadow)"/>
+  <text x="700" y="2108" class="boxtext">发送至下游规划与控制模块</text>
+
+  <path d="M700 2140 L700 2160" class="line"/>
+  <ellipse cx="700" cy="2164" rx="90" ry="12" class="output"/>
+</svg>
